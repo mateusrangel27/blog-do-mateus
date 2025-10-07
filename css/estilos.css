@@ -1,0 +1,24 @@
+th, td{
+    text-align: center;
+border: 5px solid darkblue;
+}
+
+table{
+    width: 80%;
+    margin: auto;
+}
+
+*{
+font-size: 32px;
+padding: 10px;
+}
+
+.destaque{
+background-color: darkblue;
+color: white;
+}
+
+td.video{
+text-align: center;
+width: 300px;
+}
