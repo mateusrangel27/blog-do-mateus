@@ -7,11 +7,11 @@ export class Produto {
         this.valor = valor;
     }
     cadastrar() {
-        //Recupera a lista de produtos armazenada no localstorage
+        // Recupera a lista de produtos armazenada no localStorage
         const listaProduto = JSON.parse(localStorage.getItem("listaProduto") || "[]");
-        //Adiciona o Produto atual a lista
+        // Adiciona o produto atual à lista
         listaProduto.push(this);
-        //Salva a lista atualizada no localstorage
+        // Salva a lista atualizada no localStorage
         localStorage.setItem("listaProduto", JSON.stringify(listaProduto));
     }
     static listar() {
@@ -22,6 +22,21 @@ export class Produto {
         let listaProduto = JSON.parse(localStorage.getItem("listaProduto") || "[]");
         listaProduto = listaProduto.filter((produto) => produto.id !== id);
         localStorage.setItem("listaProduto", JSON.stringify(listaProduto));
+    }
+    static alterar(produtoAlterado) {
+        let listaProduto = JSON.parse(localStorage.getItem("listaProduto") || "[]");
+        listaProduto = listaProduto.map((produto) => {
+            if (produto.id === produtoAlterado.id) {
+                return produtoAlterado;
+            }
+            return produto;
+        });
+        localStorage.setItem("listaProduto", JSON.stringify(listaProduto));
+    }
+    static buscarProduto(id) {
+        const listaProduto = this.listar();
+        const produto = listaProduto.find((produto) => produto.id === id);
+        return produto;
     }
 }
 //# sourceMappingURL=produto.js.map

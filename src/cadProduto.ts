@@ -1,12 +1,20 @@
-import {Produto} from "./classes/produto.js";
+import { Produto } from "./classes/produto.js";
 
 const formCadProduto = document.getElementById("formCadProduto") as HTMLFormElement;
 const txtNome = document.getElementById("txtNome") as HTMLInputElement;
 const txtValor = document.getElementById("txtValor") as HTMLInputElement;
+const btnSubmit = document.getElementById("btnSubmit") as HTMLButtonElement;
 const divMensagem = document.getElementById("divMensagem") as HTMLDivElement;
 
-    // lista de produtos cadastrados (poderia ser substituída por uma classe AdmProduto)
-const produtos: Produto[] = [];
+let params = new URLSearchParams(window.location.search);
+let id = params.get("id");
+
+window.onload = () => {
+  if (id) {
+    btnSubmit.textContent = "Alterar";
+    carregarDados(id);
+  }
+};
 
 function exibirMensagem(color: string, msg: string) {
   divMensagem.style.color = color;
@@ -24,9 +32,24 @@ formCadProduto.addEventListener("submit", (event) => {
     return;
   }
 
-  const produto = new Produto(nome, valor);
-  produto.cadastrar(); // simulando o cadastro
+  if (!id) {
+    const produto = new Produto(nome, valor);
+    produto.cadastrar();
+    exibirMensagem("green", "Produto cadastrado com sucesso!");
+    formCadProduto.reset();
+  } else {
+    let produtoAlterado = new Produto(nome, valor);
+    produtoAlterado.id = id;
+    Produto.alterar(produtoAlterado);
+    exibirMensagem("green", "Alteração realizada com sucesso!");
+  }
+});
 
-  exibirMensagem("green", "Cadastro realizado com sucesso!");
-  formCadProduto.reset(); // limpa os campos
-}); 
+function carregarDados(id: string) {
+  let produto = Produto.buscarProduto(id);
+
+  if (produto) {
+    txtNome.value = produto.nome;
+    txtValor.value = produto.valor.toString();
+  }
+}

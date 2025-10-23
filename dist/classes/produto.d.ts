@@ -6,5 +6,7 @@ export declare class Produto {
     cadastrar(): void;
     static listar(): Produto[];
     static excluir(id: string): void;
+    static alterar(produtoAlterado: Produto): void;
+    static buscarProduto(id: string): Produto | undefined;
 }
 //# sourceMappingURL=produto.d.ts.map

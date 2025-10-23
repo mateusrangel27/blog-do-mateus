@@ -6,26 +6,40 @@ function carregarTabela() {
     const listaProduto = Produto.listar();
     const tabela = document.getElementById("tabela-produto");
     tabela.innerHTML = `
-<tr>
-<th>Nome</th>
-<th>Valor</th>
-<th>ações</th>
-</tr>
-`;
+    <tr>
+      <th>Nome</th>
+      <th>Valor</th>
+      <th colspan="2">Ações</th>
+    </tr>
+  `;
     listaProduto.forEach(produto => {
         const linha = tabela.insertRow();
         linha.insertCell().textContent = produto.nome;
         linha.insertCell().textContent = String(produto.valor);
+        // Botão Excluir
         let btnExcluir = document.createElement("button");
         btnExcluir.textContent = "Excluir";
         btnExcluir.addEventListener("click", () => {
             excluirProduto(produto.id);
         });
         linha.insertCell().appendChild(btnExcluir);
+        // Botão Alterar
+        let btnAlterar = document.createElement("button");
+        btnAlterar.textContent = "Alterar";
+        btnAlterar.addEventListener("click", () => {
+            alterarProduto(produto.id);
+        });
+        linha.insertCell().appendChild(btnAlterar);
     });
 }
 function excluirProduto(id) {
-    Produto.excluir(id);
-    carregarTabela();
+    if (confirm("Deseja realmente excluir este produto?")) {
+        Produto.excluir(id);
+        carregarTabela();
+    }
+}
+function alterarProduto(id) {
+    // Redireciona para o formulário de cadastro com o ID na URL
+    window.location.href = `cadProduto.html?id=${id}`;
 }
 //# sourceMappingURL=gestaoDeProdutos.js.map
